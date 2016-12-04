@@ -1,8 +1,10 @@
 #!/usr/local/bin/python3
 
-# Day 2: http://adventofcode.com/2016/day/3
-# Problem: Given lists of the length of sides of triangles, determine how many
-# of the given triangles are possible.
+# Day 4: http://adventofcode.com/2016/day/4
+# Problem: Get the sum of the numbers of all the valid strings.
+# A valid string has the frequency of the letters in the first portion of the
+# string, before the numbers, in the correct order in the checksum (in square brackets).
+# Equal frequencies are sorted by alphabetical order.
 
 import re
 import operator
@@ -44,4 +46,4 @@ for line in f:
     if isValid(line):
         totalValidDigits += int(digits.search(line).group(0))
 
-print(totalValidDigits)
+print("Sum of the sector IDs:" + totalValidDigits)
