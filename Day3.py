@@ -33,3 +33,28 @@ for triangle in triangles:
         correct += 1
 
 print(correct)
+
+# Part 2: Attempt to read by column. Each group of three in a column is now a triangle.
+# How many of those triangles are valid?
+
+triangles = []
+correct = 0
+
+for i in range(2, len(originalTriangles), 3):
+    triangleSet = [[], [], []]
+    for j in range(i-2, i+1):
+        groups = pattern.search(originalTriangles[j]).groups()
+        for index, group in enumerate(groups):
+            triangleSet[index].append(int(group))
+    triangles.extend(triangleSet)
+
+for triangle in triangles:
+    valid = True
+    for number in triangle:
+        if sum(triangle) - number <= number: # Less than or equal to! Line != triangle
+            valid = False
+            break
+    if valid == True:
+        correct += 1
+
+print(correct)

@@ -1,5 +1,3 @@
-#!/usr/local/bin/python3
-
 # Day 4: http://adventofcode.com/2016/day/4
 # Problem: Get the sum of the numbers of all the valid strings.
 # A valid string has the frequency of the letters in the first portion of the
@@ -41,9 +39,35 @@ def isValid(str):
 
 f = open("inputs/Day4.txt", "r")
 totalValidDigits = 0
+validRooms = [] # used in next section
 
 for line in f:
     if isValid(line):
         totalValidDigits += int(digits.search(line).group(0))
+        validRooms.append([letters.findall(line), int(digits.search(line).group(0))])
 
-print("Sum of the sector IDs:" + totalValidDigits)
+print("Sum of the sector IDs: " + str(totalValidDigits))
+
+# Part 2:
+# Decrypt the valid rooms by Caesar shifting the name by the number of spaces
+# equal to the sector id. Answer is the sector ID of the rrom where North Pole
+# objects are stored. (After checking, it's northpole object storage.')
+
+def caesarShift(strs, magnitude):
+    shiftAmt = magnitude % 26
+    allShifted = ""
+    for str in strs:
+        shifted = ""
+        for c in str:
+            newC = chr(ord(c) + shiftAmt)
+            if ord(newC) > ord("z"):
+                newC = chr(ord(newC)-26)
+            shifted += newC
+        allShifted += " " + shifted
+    return [allShifted.strip(), magnitude]
+
+validRooms = [caesarShift(room[0], room[1]) for room in validRooms]
+
+for room in validRooms:
+    if "northpole object storage" in room[0]:
+        print(room[0] + " ID: " + str(room[1]))

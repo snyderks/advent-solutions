@@ -22,14 +22,38 @@ pad = (("1", "2", "3"), ("4", "5", "6"), ("7", "8", "9"))
 
 for line in lines:
     for direction in line:
-        if "R" in direction and lastNumber[0] < 2:
-            lastNumber[0] += 1
-        if "L" in direction and lastNumber[0] > 0:
-            lastNumber[0] -= 1
-        if "U" in direction and lastNumber[1] > 0:
-            lastNumber[1] -= 1
-        if "D" in direction and lastNumber[1] < 2:
+        if "R" in direction and lastNumber[1] < 2:
             lastNumber[1] += 1
-# remember: multidimensional array indexing happens in reverse.
-    numbers.append(pad[lastNumber[1]][lastNumber[0]])
+        if "L" in direction and lastNumber[1] > 0:
+            lastNumber[1] -= 1
+        if "U" in direction and lastNumber[0] > 0:
+            lastNumber[0] -= 1
+        if "D" in direction and lastNumber[0] < 2:
+            lastNumber[0] += 1
+    numbers.append(pad[lastNumber[0]][lastNumber[1]])
+print("".join(numbers))
+
+# With a pad that looks like the one below (empty strings are buttons that can't be hit),
+# what is the code with the same instructions as before?
+
+numbers = []
+lastNumber = [2,0]
+newPad = (("", "", "1", "", ""), 
+          ("", "2", "3", "4", ""),
+          ("5", "6", "7", "8", "9"),
+          ("", "A", "B", "C", ""),
+          ("", "", "D", "", ""))
+
+for line in lines:
+    for direction in line:
+        # adding checks to make sure the spot to move to isn't empty
+        if "R" in direction and lastNumber[1] < 4 and len(newPad[lastNumber[0]][lastNumber[1]+1]) > 0:
+            lastNumber[1] += 1
+        if "L" in direction and lastNumber[1] > 0 and len(newPad[lastNumber[0]][lastNumber[1]-1]) > 0:
+            lastNumber[1] -= 1
+        if "U" in direction and lastNumber[0] > 0 and len(newPad[lastNumber[0]-1][lastNumber[1]]) > 0:
+            lastNumber[0] -= 1
+        if "D" in direction and lastNumber[0] < 4 and len(newPad[lastNumber[0]+1][lastNumber[1]]) > 0:
+            lastNumber[0] += 1
+    numbers.append(newPad[lastNumber[0]][lastNumber[1]])
 print("".join(numbers))

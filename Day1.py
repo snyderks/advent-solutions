@@ -22,18 +22,12 @@ def changeDirection(start, direction):
             start = 4
         else:
             start -= 1
-    elif "R" in direction:
+    else:
         if start == 4:
             start = 1
         else:
             start += 1
-    elif "D" in direction:
-        if start < 3:
-            start += 2
-        else:
-            start -= 2
     return start
-
 
 def move(directionNum, magnitude, coords):
     if directionNum == 1:
@@ -43,7 +37,7 @@ def move(directionNum, magnitude, coords):
     if directionNum == 3:
         coords[1] -= int(magnitude[1:])
     if directionNum == 4:
-        coords[1] -= int(magnitude[1:])
+        coords[0] -= int(magnitude[1:])
     return coords
 
 for direction in directions:
@@ -51,3 +45,47 @@ for direction in directions:
     coords = move(currentDirection, direction, coords)
 
 print("Destination is " + str(coords[0] + coords[1]) + " blocks away\n")
+
+# Part 2
+# Determine which location is visited twice first and how far away it is.
+# Keep in mind, you can cross locations.
+
+# reset coords
+allLocations = [[0, 0]]
+currentDirection = 1
+secondVisit = [0, 0]
+for direction in directions:
+    found = False
+    currentDirection = changeDirection(currentDirection, direction)
+    coords = move(currentDirection, direction, list(allLocations[-1]))
+    delta = [coords[0] - allLocations[-1][0], coords[1] - allLocations[-1][1]]
+    if delta[0] is not 0:
+        for i in range(1, abs(delta[0]) + 1):
+            toAppend = []
+            if delta[0] > 0:
+                toAppend = [allLocations[-1][0] + 1, allLocations[-1][1]]
+            else:
+                toAppend = [allLocations[-1][0] - 1, allLocations[-1][1]]
+            for location in allLocations:
+                if toAppend[0] is location[0] and toAppend[1] is location[1]:
+                    secondVisit = location
+                    found = True
+                    break
+            allLocations.append(toAppend)
+    else:
+        for i in range(1, abs(delta[1]) + 1):
+            toAppend = []
+            if delta[1] > 0:
+                toAppend = [allLocations[-1][0], allLocations[-1][1] + 1]
+            else:
+                toAppend = [allLocations[-1][0], allLocations[-1][1] - 1]
+            for location in allLocations:
+                if toAppend[0] is location[0] and toAppend[1] is location[1]:
+                    secondVisit = location
+                    found = True
+                    break
+            allLocations.append(toAppend)
+    if found is True:
+        break
+
+print("First location visited twice is " + str(abs(secondVisit[0] + secondVisit[1])) + " blocks away\n")
