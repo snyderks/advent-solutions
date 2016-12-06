@@ -2,28 +2,28 @@
 
 Done in Python as a project to help me learn it
 
-- [x] Day 1
-- [x] Day 2
-- [x] Day 3
-- [ ] Day 4
-- [ ] Day 5
-- [ ] Day 6
-- [ ] Day 7
-- [ ] Day 8
-- [ ] Day 9
-- [ ] Day 10
-- [ ] Day 11
-- [ ] Day 12
-- [ ] Day 13
-- [ ] Day 14
-- [ ] Day 15
-- [ ] Day 16
-- [ ] Day 17
-- [ ] Day 18
-- [ ] Day 19
-- [ ] Day 20
-- [ ] Day 21
-- [ ] Day 22
-- [ ] Day 23
-- [ ] Day 24
-- [ ] Day 25
+Day 1: ~~Part 1~~ | ~~Part 2~~
+Day 2: ~~Part 1~~ | ~~Part 2~~
+Day 3: ~~Part 1~~ | ~~Part 2~~
+Day 4: ~~Part 1~~ | ~~Part 2~~
+Day 5: ~~Part 1~~ | ~~Part 2~~
+Day 6: ~~Part 1~~ | ~~Part 2~~
+Day 7: Part 1 | Part 2
+Day 8: Part 1 | Part 2
+Day 9: Part 1 | Part 2
+Day 10: Part 1 | Part 2
+Day 11: Part 1 | Part 2
+Day 12: Part 1 | Part 2
+Day 13: Part 1 | Part 2
+Day 14: Part 1 | Part 2
+Day 15: Part 1 | Part 2
+Day 16: Part 1 | Part 2
+Day 17: Part 1 | Part 2
+Day 18: Part 1 | Part 2
+Day 19: Part 1 | Part 2
+Day 20: Part 1 | Part 2
+Day 21: Part 1 | Part 2
+Day 22: Part 1 | Part 2
+Day 23: Part 1 | Part 2
+Day 24: Part 1 | Part 2
+Day 25: Part 1 | Part 2
