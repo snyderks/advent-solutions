@@ -3,49 +3,58 @@
 # two of them. Determine which one is responsible for comparing two specific
 # numbers.
 
-f = open("inputs/Day10.txt", "r")
+f = open("inputs/Day10.txt")
 
 import re
+from collections import defaultdict
 
-botSend = re.compile("(?:bot )(\d+)(?: gives low to (bot|output) )(\d+)(?: and high to (bot|output) )(\d+)")
-botReceive = re.compile("(?:value )(\d+)(?: goes to bot )(\d+)")
+botSend = re.compile(r"(?:bot )(\d+)(?: gives low to (\w+) )(\d+)(?: and high to (\w+) )(\d+)")
+botReceive = re.compile(r"(?:value )(\d+)(?: goes to bot )(\d+)")
 
 values = [61, 17]
 
-compBot = ""
+lines = f.readlines()
+finishedLines = []
 
-bots = {}
-for line in f:
-    print(line)
-    if line.isspace():
-        break
-    if "value" in line:
-        groups = botReceive.search(line).groups()
-        value = int(groups[0])
-        bot = groups[1]
-        if bot in bots and bots[bot]['start'] is not None:
-            bots[bot].append(value)
-        else:
-            bots[bot]['start'] = [value]
-    else:
-        groups = botSend.search(line).groups()
-        bot = bots[groups[0]]
-        if "bot" in groups[1]:
-            dest = groups[2]
-            if dest in bots and len(bots[dest]) > 0:
-                bots[dest].append(lo)
-            else:
-                bots[dest] = [lo]
-        if "bot" in groups[3]:
-            dest = groups[4]
-            if dest in bots and len(bots[dest]) > 0:
-                bots[dest].append(hi)
-            else:
-                bots[dest] = [hi]
-        bot = []
-    for key, value in bots.iteritems():
+bots = defaultdict(list)
+outs = defaultdict(list)
+
+def checkBots(bots, values):
+    for key, value in bots.items():
         if values[0] in value and values[1] in value:
-            compBot = key
-            break
-    print(bots)
-print(compBot)
+            return key
+    return None
+
+# A note: if you have numbers, beware of string comparisons. They do NOT work the same.
+
+while len(lines) > len(finishedLines):
+    for line in lines:
+        if line in finishedLines:
+            continue
+        if 'value' in line:
+            [value, bot] = botReceive.search(line).groups()
+            bots[bot].append(int(value))
+            finishedLines.append(line)
+        else:
+            [bot, lowType, lowDest, highType, highDest] = botSend.search(line).groups()
+            if len(bots[bot]) < 2:
+                continue # need more values
+            else:
+                low  = min(bots[bot])
+                high = max(bots[bot])
+                bots[bot] = []
+                if lowType.startswith('out'):
+                    outs[lowDest].append(low)
+                else:
+                    bots[lowDest].append(low)
+                if highType.startswith('out'):
+                    outs[highDest].append(high)
+                else:
+                    bots[highDest].append(high)
+                finishedLines.append(line)
+        check = checkBots(bots, values)
+        if check is not None:
+            print(check)
+
+# Part 2: Multiply the values of one chip in outputs 0, 1, 2
+print(str(outs['0'][0] * outs['1'][0] * outs['2'][0]))
