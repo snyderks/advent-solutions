@@ -1,4 +1,4 @@
-# Day 9: http://adventofcode.com/2016/day/10
+# Day 10: http://adventofcode.com/2016/day/10
 # Problem: Bots give each other chips with numbers on them only when they have
 # two of them. Determine which one is responsible for comparing two specific
 # numbers.
