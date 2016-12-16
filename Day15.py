@@ -1,18 +1,23 @@
-import queue
-
 discs = []
 
-def genDisk(positions, initPos):
-    pos = []
-    for i in range(0, positions):
-        if i is not 0:
-            pos.append(False)
-        else:
-            pos.append(True)
-    return [pos, initPos]
-
 # Create data
-discs.append(genDisk(5, 4))
-discs.append(genDisk(2, 1))
+discs.append((13, 11))
+discs.append((5, 0))
+discs.append((17, 11))
+discs.append((3, 0))
+discs.append((7, 2))
+discs.append((19, 17))
+discs.append((11, 0))
 
-# Do this by 
+done = False
+t = 0
+while done is False:
+    done = True
+    for i, disc in enumerate(discs):
+        if (t + i + 1 + disc[1]) % disc[0] is not 0:
+            done = False
+            break
+    if done:
+        print(str(t))
+        break
+    t += 1

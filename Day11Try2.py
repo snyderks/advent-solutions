@@ -1,3 +1,4 @@
+# Giving up for now. Will come back to this one with an A* solution.
 import copy
 import gc
 from collections import Counter
@@ -10,11 +11,18 @@ done = False
 # 3 = Curium
 # 4 = Ruthenium
 # 5 = Plutonium
-# [Elevator, generators, chips]
+# [Elevator, chips, generators]
 start = [
     [ True, [1], [1] ],
-    [ False, [2, 3, 4, 5], [] ],
     [ False, [], [2, 3, 4, 5] ],
+    [ False, [2, 3, 4, 5], [] ],
+    [ False, [], [] ],
+    0]
+
+start = [
+    [ True, [1, 2], [] ],
+    [ False, [], [1] ],
+    [ False, [], [2] ],
     [ False, [], [] ],
     0]
 
@@ -30,15 +38,23 @@ def success(state):
         correct = False
     return correct
 
+def valid(state):
+    correct = True
+    for i in range(0,3):
+        if len(state[i][1]) > 0 and len(state[i][2]) > 0:
+            for chip in state[i][1]:
+                if chip not in state[i][2]:
+                    correct = False
+                    break
+    return correct and not duplicate(state)
+
 def duplicate(node):
     dupe = False
     # this might have been the most important optimization.
     # when checking for duplicates, it's increasingly likely that
     # the states reached by that step are very similar to the ones
-    # reached by its siblings. So...we should be checking then.
+    # reached by its siblings. So...we should be checking there to start.
     for j in range(len(seen), 0):
-        if dupe:
-            break
         localDupe = True
         for i in range(0, 3):
             if (seen[j][i][0] != node[i][0] or
@@ -46,8 +62,8 @@ def duplicate(node):
                 localDupe = False
                 break
         if localDupe:
-            dupe = True
-            break
+            return True
+    return False
 
 def moveIndices(floors, startFloor, indices, offset):
     # indicies are in form group (either the generators (1) or chips (2)) and the item to move
@@ -64,17 +80,17 @@ def moveOneChip(startNode, stFlr, offset):
     states = []
     for chip in startNode[stFlr][1]:
         new = moveIndices(startNode, stFlr, [[1, chip]], offset)
-        if not duplicate(new):
+        if valid(new):
             states.append(new)
+            seen.append(new)
     return states
 
 def moveOneGenerator(startNode, stFlr, offset):
     states = []
     for gen in startNode[stFlr][2]:
         new = moveIndices(startNode, stFlr, [[2, gen]], offset)
-        if not duplicate(new):
+        if valid(new):
             states.append(new)
-        else:
             seen.append(new)
     return states
 
@@ -87,9 +103,8 @@ def moveTwoChips(startNode, stFlr, offset):
                               [ [1, startNode[stFlr][1][chipIndex1]],
                                 [1, startNode[stFlr][1][chipIndex2]] ],
                               offset)
-            if not duplicate(new):
+            if valid(new):
                 states.append(new)
-            else:
                 seen.append(new)
     return states
 
@@ -102,9 +117,8 @@ def moveTwoGenerators(startNode, stFlr, offset):
                               [ [2, startNode[stFlr][2][genIndex1]],
                                 [2, startNode[stFlr][2][genIndex2]] ],
                               offset)
-            if not duplicate(new):
+            if valid(new):
                 states.append(new)
-            else:
                 seen.append(new)
     return states
 
@@ -116,9 +130,8 @@ def movePairs(startNode, stFlr, offset):
                               stFlr,
                               [ [1, chip], [2, chip] ],
                               offset)
-            if not duplicate(new):
+            if valid(new):
                 states.append(new)
-            else:
                 seen.append(new)
     return states
 
@@ -133,6 +146,7 @@ def generateOneDirection(startNode, stFlr, offset):
             states += moveTwoGenerators(startNode, stFlr, offset)
         else:
             states += moveOneGenerator(startNode, stFlr, offset)
+        states += movePairs(startNode, stFlr, offset)
     else:
         empty = True
         for i in range(stFlr, 0, -1):
@@ -140,12 +154,21 @@ def generateOneDirection(startNode, stFlr, offset):
                 empty = False
                 break
         if not empty:
-            states += moveTwoChips(startNode, stFlr, offset)
-            states += moveOneChip(startNode, stFlr, offset)
-            states += moveTwoGenerators(startNode, stFlr, offset)
-            states += moveOneGenerator(startNode, stFlr, offset)
-
-    states += movePairs(startNode, stFlr, offset)
+            singleMoves = []
+            for item in startNode[stFlr][2]:
+                if item not in startNode[stFlr][1]:
+                    singleMoves.append([2, item])
+            if len(singleMoves) > 0:
+                for move in singleMoves:
+                    newState = moveIndices(startNode, stFlr, singleMoves, -1)
+                    if valid(newState):
+                        states.append(newState)
+                        seen.append(newState)
+                states += moveOneChip(startNode, stFlr, offset)
+            else:
+                states += moveTwoChips(startNode, stFlr, offset)
+                states += moveTwoGenerators(startNode, stFlr, offset)
+                states += movePairs(startNode, stFlr, offset)
     return states
 
 def generateBothDirections(startNode, stFlr):
@@ -177,7 +200,6 @@ currNodes = [start]
 
 while done is False:
     print(str(len(currNodes)))
-    # print(str(len(currNodes)))
     currNodes = step(currNodes)
     steps += 1
 

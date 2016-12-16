@@ -13,11 +13,11 @@ Day 8: ~~Part 1~~ | ~~Part 2~~
 Day 9: ~~Part 1~~ | ~~Part 2~~  
 Day 10: ~~Part 1~~ | ~~Part 2~~  
 Day 11: Part 1 | Part 2  
-Day 12: Part 1 | Part 2  
-Day 13: Part 1 | Part 2  
-Day 14: Part 1 | Part 2  
-Day 15: Part 1 | Part 2  
-Day 16: Part 1 | Part 2  
+Day 12: ~~Part 1~~ | ~~Part 2~~  
+Day 13: ~~Part 1~~ | ~~Part 2~~  
+Day 14: ~~Part 1~~ | ~~Part 2~~  
+Day 15: ~~Part 1~~ | ~~Part 2~~  
+Day 16: ~~Part 1~~ | ~~Part 2~~  
 Day 17: Part 1 | Part 2  
 Day 18: Part 1 | Part 2  
 Day 19: Part 1 | Part 2  
