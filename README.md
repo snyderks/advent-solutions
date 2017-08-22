@@ -1,6 +1,8 @@
 # Solutions for Advent of Code 2016
 
-Completed in Python as a way to gain experience with it
+Completed in Python, as a primer for any future work with the language and its paradigms.
+
+The Advent of Code is located [here](http://adventofcode.com) and is an advent calendar (from December 1-25) of coding problems, ranging from simplistic challenges to advanced algorithm implementation and problem solving.
 
 **All days completed**
 
@@ -14,8 +16,8 @@ Day 7: ~~Part 1~~ | ~~Part 2~~
 Day 8: ~~Part 1~~ | ~~Part 2~~  
 Day 9: ~~Part 1~~ | ~~Part 2~~  
 Day 10: ~~Part 1~~ | ~~Part 2~~  
-Day 11: ~~Part 1~~ | ~~Part 2~~
-Day 12: ~~Part 1~~ | ~~Part 2~~  
+Day 11: ~~Part 1~~ | ~~Part 2~~  
+Day 12: ~~Part 1~~ | ~~Part 2~~  
 Day 13: ~~Part 1~~ | ~~Part 2~~  
 Day 14: ~~Part 1~~ | ~~Part 2~~  
 Day 15: ~~Part 1~~ | ~~Part 2~~  
